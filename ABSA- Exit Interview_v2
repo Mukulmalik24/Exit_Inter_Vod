@@ -1,0 +1,759 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "###https://remicnrd.github.io/Aspect-based-sentiment-analysis/"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import pandas as pd"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df4_1=pd.read_csv"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df4_1['aspect_category'].unique()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import spacy\n",
+    "#nlp = spacy.load('en', disable=['parser', 'ner'])\n",
+    "#doc = nlp(u'Apple is looking at buying U.K. startup for $1 billion')\n",
+    "nlp=spacy.load('en_core_web_sm')\n",
+    "# nlp = spacy.load('en')\n",
+    "\n",
+    "#dataset.review=df4_2.Recommendation.str.lower()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df4_1.columns"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df_2=df4_1[[\"recommendations\",'aspect_category']]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# import spacy\n",
+    "# #nlp = spacy.load('en', disable=['parser', 'ner'])\n",
+    "# #doc = nlp(u'Apple is looking at buying U.K. startup for $1 billion')\n",
+    "# nlp=spacy.load('en_core_web_sm')\n",
+    "# nlp = spacy.load('en')\n",
+    "\n",
+    "#dataset.review=df4_2.Recommendation.str.lower()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "##Converting to lower string\n",
+    "df_2[\"review\"] = df_2.recommendations.str.lower()\n",
+    "#df4_2.review=df4_2[~df4_2['review'].isin(['1','2','3','4','5','6','7','8','9','-',''])]\n",
+    "#df4_2.review=df4_2[~df4_2.review.str.contains(r'[0-9]')]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df_2.columns"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df_2=df_2[~df_2['review'].isin(['1','2','3','4','5','6','7','8','9','-',''])]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "## dropping NA\n",
+    "df_3=df_2.dropna()\n",
+    "df_3.head(10)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df_3.dtypes"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "\n",
+    "df_3.reset_index(drop=True,inplace=True)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# import nltk as nltk\n",
+    "# import pandas as pd\n",
+    "# import numpy as np"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# s=df_3[\"review\"].str.split('.').apply(pd.Series).stack()\n",
+    "# s.index = s.index.droplevel(-1)\n",
+    "# s.head(10)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# s.to_csv('C:\\\\Users\\\\MalikM\\\\Documents\\\\exit interview\\\\topic modelling\\\\b.csv')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# s=df_3[\"review\"].str.split('.').apply(pd.Series).stack()\n",
+    "# s.index = s.index.droplevel(-1) # to line up with df's index\n",
+    "# # print(s)\n",
+    "# s.name='Comments' # it gives name to series ... for joining as column below. After joining with dataframe- my_df, \n",
+    "# #                             this will become the name of the column\n",
+    "# s.replace('',np.nan,inplace=True)\n",
+    "# s.dropna(inplace=True)\n",
+    "# del my_df['comments']\n",
+    "# my_df=my_df.join(s)\n",
+    "# my_df"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# df_2['review'] = \n",
+    "# df_3['review'].astype(str).str.extract('(\\d+)')#.astype(str)\n",
+    "\n",
+    "df_3['review'].str.extract('([a-zA-Z ]+)', expand=False).str.strip()\n",
+    "# df_3.head(12)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df_2.head(10)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# taking out noun terms\n",
+    "aspect_terms = []\n",
+    "for review in nlp.pipe(df_3.review):\n",
+    "    chunks = [(chunk.root.text) for chunk in review.noun_chunks if chunk.root.pos_ == 'NOUN'] \n",
+    "    aspect_terms.append(' '.join(chunks))\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df_3['aspect_terms'] = aspect_terms\n",
+    "# df_3.head(10)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "## innitialinsing CNN\n",
+    "from keras.models import load_model\n",
+    "from keras.models import Sequential\n",
+    "from keras.layers import Dense, Activation\n",
+    "\n",
+    "aspect_categories_model = Sequential()\n",
+    "aspect_categories_model.add(Dense(512, input_shape=(6000,), activation='relu'))\n",
+    "aspect_categories_model.add(Dense(10, activation='softmax'))\n",
+    "aspect_categories_model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from keras.preprocessing.text import Tokenizer\n",
+    "\n",
+    "vocab_size = 6000 # We set a maximum size for the vocabulary\n",
+    "tokenizer = Tokenizer(num_words=vocab_size)\n",
+    "tokenizer.fit_on_texts(df_3.review)\n",
+    "aspect_tokenized = pd.DataFrame(tokenizer.texts_to_matrix(df_3.aspect_terms))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#Label encoding the aspect category\n",
+    "from sklearn.preprocessing import LabelEncoder\n",
+    "from keras.utils import to_categorical\n",
+    "\n",
+    "label_encoder = LabelEncoder()\n",
+    "integer_category = label_encoder.fit_transform(df_3.aspect_category)\n",
+    "dummy_category = to_categorical(integer_category)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "dummy_category"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "integer_category\n",
+    "#dummy_category.shape"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df_3.aspect_category.unique()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "aspect_categories_model.fit(aspect_tokenized, dummy_category, epochs=5, verbose=1)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### try on new data"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df_test=pd.read_csv"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df_test1=df_test[[\"DummyID\",\"Response ID\",\"Recommendation\"]]\n",
+    "len(df_test1)\n",
+    "df_test1.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#removing sentience which have only numbers in it\n",
+    "\n",
+    "df_test2_=df_test1[~df_test1['Recommendation'].isin(['1','2','3','4','5','6','7','8','9','','Na','-','.'])]\n",
+    "df_test2_opposite=df_test1[df_test1['Recommendation'].isin(['1','2','3','4','5','6','7','8','9','','Na','-','.'])]\n",
+    "\n",
+    "\n",
+    "df_test2__=df_test2_[~df_test2_.Recommendation.str.contains(r'\\d',na=True)] # only non nulls\n",
+    "nulls=df_test2_[df_test2_.Recommendation.str.contains(r'\\d',na=True)] # only nulls\n",
+    "\n",
+    "df_test2=df_test2__.replace({'Recommendation': {'-': '', '&': 'and', ' e.g. ':' that is ',' e.g ':' that is ',' i.e ': ' that is ','Na':'Nothing',pd.np.nan: 'None' }}, regex=True)\n",
+    "# df_test2.to_csv('C:\\\\Users\\\\MalikM\\\\Documents\\\\exit interview\\\\DEC\\\\not_null.csv')\n",
+    "\n",
+    "\n",
+    "# nulls.to_csv('C:\\\\Users\\\\MalikM\\\\Documents\\\\exit interview\\\\DEC\\\\null.csv')\n",
+    "\n",
+    "# df_test3=df_test2.dropna()\n",
+    "# print(len(df_test2))\n",
+    "# print(df_test2)\n",
+    "\n",
+    "\n",
+    "# df_test3[df_test3['Recommendation'].str.extract('([a-zA-Z ]+)', expand=False).str.strip()]\n",
+    "# df_test3.reset_index(drop=True,inplace=True)\n",
+    "# df_test3['Recommendation'].str.extract('([a-zA-Z ]+)', expand=False).str.strip()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import numpy as np"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "##Splitting sentences on full stop and cleaning\n",
+    "\n",
+    "s=df_test2[\"Recommendation\"].str.split('.').apply(pd.Series).stack()\n",
+    "s.index = s.index.droplevel(-1) # to line up with df's index\n",
+    "s.name='Recommendation' # it gives name to series ... for joining as column below. After joining with dataframe- my_df, \n",
+    "# #                             this will become the name of the column\n",
+    "s.replace('',np.nan,inplace=True)\n",
+    "s.dropna(inplace=True)\n",
+    "\n",
+    "del df_test2['Recommendation']\n",
+    "my_df=df_test2.join(s)\n",
+    "# my_df.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# my_df.dtypes"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# a=my_df.dropna()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# aa=a[~a.Recommendation.str.contains(r'\\d')]\n",
+    "# aa"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# my_df_null=my_df[my_df['Recommendation'].isnull()]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "All_data=pd.concat([my_df,df_test2_opposite,nulls],axis=0) # appending non null '.' splitted data and null values dataframe into one"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "All_data1=All_data.reset_index()\n",
+    "print(All_data1.dtypes)\n",
+    "All_data1"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "All_data1['Recommendation']= All_data1['Recommendation'].astype(str)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# All_data2=All_data1.replace({'Recommendation': {'-': '', '&': 'and', 'Na':'Nothing',pd.np.nan: 'None' }}, regex=True)\n",
+    "# All_data2.to_csv('C:\\\\Users\\\\MalikM\\\\Documents\\\\exit interview\\\\b.csv')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import nltk as nltk\n",
+    "import pandas as pd\n",
+    "import numpy as np"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "\n",
+    "count=0\n",
+    "aspect=[]\n",
+    "for i in All_data1.index:\n",
+    "# while i <86:\n",
+    "# for i in range(86):\n",
+    "# for i in range(85):\n",
+    "    \n",
+    "#     dd=pd.DataFrame()\n",
+    "#     count=count+1\n",
+    "    new_review=All_data1['Recommendation'][i]\n",
+    "#     print(new_review)\n",
+    "\n",
+    "#     new_review='I tried to share my views with higher authorities for disputes with team leader but nothing changed, infect my team leader came to me and said that I tried with higher authority for disputes with him but nothing will change.. This is how a agent level person is facing issues while working in Vodafone, so please try to change this for betterment of lower level employees. Thank you.'\n",
+    "    chunks = [(chunk.root.text) for chunk in nlp(new_review).noun_chunks if chunk.root.pos_ == 'NOUN']\n",
+    "    new_review_aspect_terms = ' '.join(chunks)\n",
+    "    new_review_aspect_tokenized = tokenizer.texts_to_matrix([new_review_aspect_terms])\n",
+    "\n",
+    "    new_review_category = label_encoder.inverse_transform(aspect_categories_model.predict_classes(new_review_aspect_tokenized))\n",
+    "#     print(count)\n",
+    "#     print(new_review_category)\n",
+    "    aspect.append(new_review_category)\n",
+    "    \n",
+    "     #df_test4['aspect'][i]=pd.Series(new_review_category)\n",
+    "\n",
+    "\n",
+    "    \n",
+    "All_data1['aspect']=pd.Series(aspect)\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "All_data1.to_csv('demo1_output.csv')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### till here - below tried codes"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "All_data2['Recommendation']"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from textblob import TextBlob"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def get_textBlob_score(All_data2['Recommendation']):\n",
+    "    # This polarity score is between -1 to 1\n",
+    "    polarity = TextBlob(sent).sentiment.polarity\n",
+    "    return polarity"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "sent=\"i am not a very good boy\"\n",
+    "get_textBlob_score(sent)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# df_test3=pd.DataFrame(['Recommendation'].str.extract('([a-zA-Z ]+)', expand=False).str.strip())\n",
+    "# df_test3.dtypes\n",
+    "# type(df_test3)\n",
+    "# # len(df_test3)\n",
+    "# # df_test3.head()\n",
+    "# # print(df_test3.columns)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# import nltk as nltk\n",
+    "# import pandas as pd\n",
+    "# import numpy as np\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# len(df_test3)\n",
+    "# df_test4=df_test3.reset_index(drop=True)\n",
+    "# # df_test4"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# count=0\n",
+    "# for i in df_test4.index:\n",
+    "#     aspect=[]\n",
+    "#     dd=pd.DataFrame()\n",
+    "#     count=count+1\n",
+    "#     new_review=df_test4['Recommendation'][i]\n",
+    "# #     print(new_review)\n",
+    "# count\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# All_data1.to_csv('C:\\\\Users\\\\MalikM\\\\Documents\\\\exit interview\\\\aaa.csv')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# count=0\n",
+    "# aspect=[]\n",
+    "# for i in All_data2.index:\n",
+    "# # while i <86:\n",
+    "# # for i in range(86):\n",
+    "# # for i in range(85):\n",
+    "    \n",
+    "# #     dd=pd.DataFrame()\n",
+    "# #     count=count+1\n",
+    "#     new_review=All_data2['Recommendation'][i]\n",
+    "# #     print(new_review)\n",
+    "\n",
+    "# #     new_review='I tried to share my views with higher authorities for disputes with team leader but nothing changed, infect my team leader came to me and said that I tried with higher authority for disputes with him but nothing will change.. This is how a agent level person is facing issues while working in Vodafone, so please try to change this for betterment of lower level employees. Thank you.'\n",
+    "#     chunks = [(chunk.root.text) for chunk in nlp(new_review).noun_chunks if chunk.root.pos_ == 'NOUN']\n",
+    "#     new_review_aspect_terms = ' '.join(chunks)\n",
+    "#     new_review_aspect_tokenized = tokenizer.texts_to_matrix([new_review_aspect_terms])\n",
+    "\n",
+    "#     new_review_category = label_encoder.inverse_transform(aspect_categories_model.predict_classes(new_review_aspect_tokenized))\n",
+    "# #     print(count)\n",
+    "# #     print(new_review_category)\n",
+    "#     aspect.append(new_review_category)\n",
+    "    \n",
+    "# # print(aspect)\n",
+    "#     #df_test4['aspect'][i]=pd.Series(new_review_category)\n",
+    "# #    print(aspect)\n",
+    "\n",
+    "# print(type(aspect))\n",
+    "\n",
+    "    \n",
+    "# All_data2['aspect']=pd.Series(aspect)\n",
+    "# print(All_data2)\n",
+    "# #     print(dd)\n",
+    "# #     print(new_review_category)\n",
+    "#     #     print(new_review_category)\n",
+    "# # print(count)\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# #print(df_test4['aspect'])\n",
+    "# print(type(new_review_category))\n",
+    "\n",
+    "# a=[1,2,3,4]\n",
+    "# for i in a:\n",
+    "#     print(i)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# for i in range(86):\n",
+    "#     print (i)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.6.5"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}
